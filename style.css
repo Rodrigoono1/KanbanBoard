@@ -17,7 +17,8 @@ body{
 }
 
 .column{
-    width: calc(100% - 30px);
+    display: flex;
+    flex-direction: column;
     max-width: 400px;
     margin: 10px;
     background-color: #fff;
