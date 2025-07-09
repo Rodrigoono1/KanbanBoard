@@ -29,11 +29,20 @@ function renderBoards(){
 	
 	//evento para el boton crear estados
     newStatus.addEventListener("click", function() {
+        const titulo = document.createElement("input");
+        titulo.type="text";
+        titulo.id="newTask";
+
+        const confirmacion = document.createElement("button");
+        confirmacion.type="submit";
+        confirmacion.textContent="Agregar Tarea";
+
         const newColumn = CrearNuevoEstado("Nuevo estado");
 		
         tablero.insertBefore(newColumn,newStatus);
     });
 }
+
 function renderTasks(){
     estados.forEach(estado=>{
         const taskContainer = document.getElementById(estado.nombre).getElementsByClassName("task-container")[0];
@@ -58,8 +67,21 @@ function renderTasks(){
             taskContainer.appendChild(nuevo);
 			
 			nuevo.addEventListener("click", function () {
-                const nuevaTarea = CrearTarea();
-                taskContainer.appendChild(nuevaTarea);
+                const titulo = document.createElement("input");
+                titulo.type="text";
+                titulo.id="newTask";
+
+                const confirmacion = document.createElement("button");
+                confirmacion.type="submit";
+                confirmacion.textContent="Agregar Tarea";
+                confirmacion.addEventListener("click",function(){
+                    const nuevaTarea = CrearTarea(titulo.value);
+                    titulo.remove();
+                    confirmacion.remove();
+                    taskContainer.appendChild(nuevaTarea);
+                });
+                taskContainer.appendChild(titulo);
+                taskContainer.appendChild(confirmacion);
             });
         }
     })
@@ -105,16 +127,16 @@ function CrearBoton(id, nombre){
 	return newButton;
 }
 
-function CrearTarea(){
+function CrearTarea(titulo){
     const task = document.createElement("div");
     task.className = "task";
 	const idUnico = Date.now();
-    task.innerText = "* Tarea " + idUnico;                
+    task.innerText = titulo;                
     task.id = idUnico;
     const tarea =
     {
         id: idUnico,
-        titulo: task.innerText
+        title: titulo
     };
     task.setAttribute("draggable", "true");
     // Eventos de drag
@@ -128,6 +150,6 @@ function CrearTarea(){
     });
 
     tareas.push(tarea);
-    
+
     return task;
 }
