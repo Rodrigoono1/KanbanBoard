@@ -6,6 +6,7 @@ const estados = [
     {nombre: "Done",
      posicion: 2}
 ];
+const tareas=[];
 
 const tablero=document.getElementById("tablero");
 
@@ -57,24 +58,8 @@ function renderTasks(){
             taskContainer.appendChild(nuevo);
 			
 			nuevo.addEventListener("click", function () {
-                const task = document.createElement("div");
-                task.className = "task";
-				const idUnico = Date.now();
-                task.innerText = "* Tarea " + idUnico;                
-                task.id = idUnico;
-                task.setAttribute("draggable", "true");
-
-                // Eventos de drag
-                task.addEventListener("dragstart", function (e) {
-                    e.dataTransfer.setData("text/plain", e.target.id);
-                    e.target.style.opacity = "0.5";
-                });
-
-                task.addEventListener("dragend", function (e) {
-                    e.target.style.opacity = "1";
-                });
-
-                taskContainer.insertBefore(task, nuevo);
+                const nuevaTarea = CrearTarea();
+                taskContainer.appendChild(nuevaTarea);
             });
         }
     })
@@ -120,3 +105,29 @@ function CrearBoton(id, nombre){
 	return newButton;
 }
 
+function CrearTarea(){
+    const task = document.createElement("div");
+    task.className = "task";
+	const idUnico = Date.now();
+    task.innerText = "* Tarea " + idUnico;                
+    task.id = idUnico;
+    const tarea =
+    {
+        id: idUnico,
+        titulo: task.innerText
+    };
+    task.setAttribute("draggable", "true");
+    // Eventos de drag
+    task.addEventListener("dragstart", function (e) {
+        e.dataTransfer.setData("text/plain", e.target.id);
+        e.target.style.opacity = "0.5";
+    });
+
+    task.addEventListener("dragend", function (e) {
+        e.target.style.opacity = "1";
+    });
+
+    tareas.push(tarea);
+    
+    return task;
+}
