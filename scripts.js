@@ -29,17 +29,35 @@ function renderBoards(){
 	
 	//evento para el boton crear estados
     newStatus.addEventListener("click", function() {
+        const newDiv = document.createElement("div");
+        newDiv.id="newStatus";
+
         const titulo = document.createElement("input");
         titulo.type="text";
-        titulo.id="newTask";
+        titulo.id="newStatusText";
 
         const confirmacion = document.createElement("button");
         confirmacion.type="submit";
         confirmacion.textContent="Agregar Tarea";
+        confirmacion.addEventListener("click",function(){
+            const newCol = CrearNuevoEstado(titulo.value);
+            newDiv.remove();
 
-        const newColumn = CrearNuevoEstado("Nuevo estado");
+            tablero.insertBefore(newCol,newStatus);
+
+
+        });
+
+
+        newDiv.appendChild(titulo);
+        newDiv.appendChild(confirmacion);
+
+        tablero.insertBefore(newDiv,newStatus);
+
+
+        /*const newColumn = CrearNuevoEstado("Nuevo estado");
 		
-        tablero.insertBefore(newColumn,newStatus);
+        tablero.insertBefore(newColumn,newStatus);*/
     });
 }
 
